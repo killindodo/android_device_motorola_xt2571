@@ -17,5 +17,16 @@ on init
     setprop sys.usb.ffs.aio_compat 1
     symlink /dev/block/platform/soc/112b0000.ufshci /dev/block/bootdevice
 
+service vendor.boot-hal-1-2 /system/bin/android.hardware.boot@1.2-service
+    interface android.hardware.boot@1.0::IBootControl default
+    interface android.hardware.boot@1.1::IBootControl default
+    interface android.hardware.boot@1.2::IBootControl default
+    class hal
+    user root
+    group root
+    disabled
+    seclabel u:r:recovery:s0
+
 on boot
     setprop sys.usb.config adb
+    start vendor.boot-hal-1-2
