@@ -1,0 +1,17 @@
+//
+// Copyright (C) 2026 The LineageOS Project
+//
+// SPDX-License-Identifier: Apache-2.0
+//
+
+cc_library_static {
+    name: "libinit_xt2571",
+    recovery_available: true,
+    srcs: ["init_xt2571.cpp"],
+    include_dirs: [
+        "system/core/init",
+    ],
+    shared_libs: [
+        "libbase",
+    ],
+}

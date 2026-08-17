@@ -1,0 +1,21 @@
+# OrangeFox recovery init - Lenovo Xiaoxin Pad Pro 12.7 2025 (MT6897).
+# Loaded by init as /init.recovery.${ro.hardware}.rc; ro.hardware is mt8792 on
+# this device (not mt6897), which is why the stock TWRP trees' mt6897 file never
+# took effect.
+#
+# Kept minimal on purpose. OrangeFox brings up its own display, touch (from the
+# vendor_boot modules) and storage/vold. The only device-specific need here is
+# the USB gadget for adb and sideload. An earlier version copied from the stock
+# TWRP tree added HAL starts and a blocking `exec ... mtk_plpath_utils`, which
+# stalled early init and reset the device at ~9s with no pstore.
+
+import /init.recovery.usb.rc
+
+on init
+    setprop sys.usb.configfs 1
+    setprop sys.usb.controller "11201000.usb0"
+    setprop sys.usb.ffs.aio_compat 1
+    symlink /dev/block/platform/soc/112b0000.ufshci /dev/block/bootdevice
+
+on boot
+    setprop sys.usb.config adb

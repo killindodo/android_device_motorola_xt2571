@@ -1,0 +1,24 @@
+# Dynamic Partitions
+ro.boot.dynamic_partitions=true
+
+# Fstab prefix
+ro.postinstall.fstab.prefix=/system
+
+# USB MTP
+ro.sys.usb.storage.type=mtp
+
+# SoC
+ro.vendor.mediatek.platform=MT6897
+ro.board.platform=mt6897
+ro.product.board=mgvi_t_64_wifi_armv82
+
+# Crypto filenames mode
+ro.crypto.volume.filenames_mode=aes-256-cts
+
+# Virtual A/B
+ro.virtual_ab.enabled=true
+ro.virtual_ab.compression.enabled=true
+
+# Recovery display
+ro.minui.pixel_format=BGRA_8888
+ro.sf.lcd_density=340
