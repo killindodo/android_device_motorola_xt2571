@@ -3,14 +3,14 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 #
-# OrangeFox / TWRP recovery board config for the Motorola Moto Pad 60 Pro (XT2571-1)
-# MediaTek Dimensity 8300 (MT6897).
+# TWRP recovery board config for the Motorola Moto Pad 60 Pro (XT2571-1 / TB373FU)
+# MediaTek Dimensity 8300 (MT6897 / MT8792).
 # Recovery rides in vendor_boot (ramdisk fragment "recovery"); there is no standalone recovery partition.
 #
 
 DEVICE_PATH := device/motorola/xt2571
 
-# Build with minimal OrangeFox/TWRP manifest
+# Build with minimal TWRP manifest
 ALLOW_MISSING_DEPENDENCIES := true
 BUILD_BROKEN_DUP_RULES := true
 BUILD_BROKEN_ELF_PREBUILT_PRODUCT_COPY_FILES := true
@@ -35,7 +35,7 @@ TARGET_2ND_CPU_VARIANT_RUNTIME := cortex-a55
 ENABLE_CPUSETS := true
 ENABLE_SCHEDBOOST := true
 
-# Assertions
+# Assertions (Strictly TB373FU / XT2571-1 ROW)
 TARGET_OTA_ASSERT_DEVICE := xt2571,XT2571,XT2571-1,TB373FU
 
 # Platform
@@ -63,12 +63,12 @@ BOARD_BOOT_HEADER_VERSION := 4
 BOARD_INIT_BOOT_HEADER_VERSION := 4
 BOARD_VENDOR_BOOT_HEADER_VERSION := 4
 
-# Prebuilt Kernel & DTB
+# Prebuilt Raw Kernel & DTB
 TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/kernel
 TARGET_PREBUILT_DTB := $(DEVICE_PATH)/prebuilt/dtb
 BOARD_PREBUILT_DTBOIMAGE := $(DEVICE_PATH)/prebuilts/dtbo.img
 
-# vendor_boot geometry (Stock MT6897 layout)
+# vendor_boot geometry (Stock MT6897 / TB373FU verified layout)
 # kernel@0x40000000, ramdisk@0x66f00000, tags@0x47c80000, dtb@0x47c80000
 BOARD_KERNEL_BASE := 0x40000000
 BOARD_KERNEL_OFFSET := 0x00000000
@@ -79,11 +79,11 @@ BOARD_DTB_SIZE := 411880
 BOARD_HEADER_SIZE := 2128
 
 # Vendor cmdline
-BOARD_VENDOR_CMDLINE := bootopt=64S3,32N2,64N2 firmware_class.path=/vendor/firmware
+BOARD_VENDOR_CMDLINE := "bootopt=64S3,32N2,64N2 firmware_class.path=/vendor/firmware"
 
 # mkbootimg args
 BOARD_MKBOOTIMG_ARGS += --dtb $(TARGET_PREBUILT_DTB)
-BOARD_MKBOOTIMG_ARGS += --vendor_cmdline "$(BOARD_VENDOR_CMDLINE)"
+BOARD_MKBOOTIMG_ARGS += --vendor_cmdline $(BOARD_VENDOR_CMDLINE)
 BOARD_MKBOOTIMG_ARGS += --pagesize $(BOARD_PAGE_SIZE) --board ""
 BOARD_MKBOOTIMG_ARGS += --kernel_offset $(BOARD_KERNEL_OFFSET)
 BOARD_MKBOOTIMG_ARGS += --ramdisk_offset $(BOARD_RAMDISK_OFFSET)
@@ -145,16 +145,16 @@ BOARD_MOVE_GSI_AVB_KEYS_TO_VENDOR_BOOT := true
 # System Properties
 TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
 
-# Verified boot / AVB
+# Verified boot / AVB (ROW TB373FU OEM Salt)
 BOARD_AVB_ENABLE := true
-PLATFORM_VERSION := 15
+PLATFORM_VERSION := 16
 PLATFORM_VERSION_LAST_STABLE := $(PLATFORM_VERSION)
 PLATFORM_SECURITY_PATCH := 2099-12-31
 BOOT_SECURITY_PATCH := $(PLATFORM_SECURITY_PATCH)
 VENDOR_SECURITY_PATCH := $(PLATFORM_SECURITY_PATCH)
 
-# Pin dtbo salt to match TB373FU vbmeta
-BOARD_AVB_DTBO_ADD_HASH_FOOTER_ARGS += --salt 10cda046103a3dbdf6e0f4bfd7effe4ff2494dbc40a4bdcaef05766f822362f8
+# Pin ROW dtbo salt to match stock ROW vbmeta
+BOARD_AVB_DTBO_ADD_HASH_FOOTER_ARGS := --salt 10cda046103a3dbdf6e0f4bfd7effe4ff2494dbc40a4bdcaef05766f822362f8
 
 # Treble / VNDK
 BOARD_VNDK_VERSION := current
@@ -167,15 +167,16 @@ TW_LOAD_VENDOR_BOOT_MODULES := true
 TARGET_INIT_VENDOR_LIB := libinit_xt2571
 TARGET_RECOVERY_DEVICE_MODULES += libinit_xt2571
 
-# SELinux / Sepolicy
+# SELinux / Sepolicy (vendor)
 BOARD_VENDOR_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/vendor
 
 # Touchscreen & Display Quirks (Novatek NT36532)
 RECOVERY_TOUCHSCREEN_SWAP_XY := true
 RECOVERY_TOUCHSCREEN_FLIP_Y := true
 
-# TWRP UI / Options
+# Pure TWRP UI / Options
 TW_THEME := portrait_hdpi
+TW_ROTATION := 0
 TW_FRAMERATE := 60
 TW_EXTRA_LANGUAGES := true
 TW_DEFAULT_LANGUAGE := en
@@ -208,7 +209,3 @@ TW_EXCLUDE_APEX := true
 # Debug
 TWRP_INCLUDE_LOGCAT := true
 TARGET_USES_LOGD := true
-
-# Pure TWRP Recovery Configuration
-TW_THEME := portrait_hdpi
-TW_ROTATION := 0

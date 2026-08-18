@@ -124,3 +124,6 @@ TW_RECOVERY_ADDITIONAL_RELINK_LIBRARY_FILES += \
     $(TARGET_OUT_SHARED_LIBRARIES)/libxml2.so \
     $(TARGET_OUT_SHARED_LIBRARIES)/android.hardware.health@2.0-impl-default.so \
     $(TARGET_OUT_SHARED_LIBRARIES)/android.hardware.boot@1.0.so
+
+# Kernel DLKM modules (vendor_dlkm & system_dlkm)
+$(call inherit-product-if-exists, $(LOCAL_PATH)/xt2571-kernel-modules.mk)
