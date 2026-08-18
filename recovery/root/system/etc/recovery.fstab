@@ -35,7 +35,7 @@ system_dlkm /system_dlkm erofs ro wait,slotselect,avb,logical,first_stage_mount
 system_dlkm /system_dlkm ext4 ro wait,slotselect,avb,logical,first_stage_mount
 
 
-/dev/block/by-name/metadata /metadata f2fs noatime,nosuid,nodev,discard wait,check,formattable
+/dev/block/by-name/metadata /metadata f2fs noatime,nosuid,nodev,discard wait,check,formattable,first_stage_mount
 /dev/block/by-name/userdata /data f2fs noatime,nosuid,nodev,discard wait,check,formattable
 
 
